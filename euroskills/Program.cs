@@ -1,11 +1,17 @@
+using euroskills.Data;
+using EuroskillsAPI.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Add EF Core with SQLite
+builder.Services.AddDbContext<EuroskillsContext>(options =>
+    options.UseSqlite("Data Source=euroskills2018.db"));
 
 var app = builder.Build();
 
@@ -17,9 +23,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
+
